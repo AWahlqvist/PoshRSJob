@@ -222,6 +222,8 @@ Function Start-RSJob {
         }
 
         $InitialSessionState = [System.Management.Automation.Runspaces.InitialSessionState]::CreateDefault()
+        $InitialSessionState.Variables.Remove('ProgressPreference', [System.Management.Automation.Runspaces.SessionStateVariableEntry])
+        $InitialSessionState.Variables.Add((New-Object -TypeName System.Management.Automation.Runspaces.SessionStateVariableEntry -ArgumentList 'ProgressPreference', 'SilentlyContinue', 'Leave disabled for runspace jobs to avoid log clutter'))
 
         If ($PSBoundParameters['ModulesToImport']) {
             [void]$InitialSessionState.ImportPSModule($ModulesToImport)
